@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 
-REPO_URL="https://github.com/your-username/dotfiles.git"
+REPO_URL="https://github.com/shibatatera/dotfiles.git"
 DOTFILES_DIR="$HOME/.dotfiles"
 
 # 1. 権限（sudo / root）の自動判定
