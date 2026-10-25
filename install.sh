@@ -92,6 +92,6 @@ echo "==> 4. GNU Stowでシンボリックリンクを作成します..."
 mkdir -p "$HOME/.config/micro"
 
 # stowコマンドを実行
-stow -v -d "$DOTFILES_DIR" -t "$HOME" sqlite micro
+stow -v -d "$DOTFILES_DIR" -t "$HOME" sqlite3 micro
 
 echo "==> セットアップが完了しました！"
