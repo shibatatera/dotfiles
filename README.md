@@ -1,3 +1,3 @@
-```sh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/shibatatera/dotfiles/main/install.sh)"
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/shibatatera/dotfiles/main/install.sh)"
 ```
