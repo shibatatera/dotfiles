@@ -1,11 +1,27 @@
 #!/usr/bin/env bash
 set -eu
 
-# dotfilesディレクトリのパスを取得
-DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_URL="https://github.com/your-username/dotfiles.git"
+DOTFILES_DIR="$HOME/.dotfiles"
+
+echo "==> 1. dotfilesリポジトリの準備をしています..."
+
+# まだクローンされていなければクローンし、されていれば最新に更新
+if [ ! -d "$DOTFILES_DIR" ]; then
+    if ! command -v git &> /dev/null; then
+        echo "エラー: gitが見つかりません。先にgitをインストールしてください。"
+        exit 1
+    fi
+    git clone "$REPO_URL" "$DOTFILES_DIR"
+else
+    echo "既存のdotfilesを更新しています..."
+    git -C "$DOTFILES_DIR" pull origin main || true
+fi
+
+# 作業ディレクトリを ~/.dotfiles に移動
 cd "$DOTFILES_DIR"
 
-echo "==> 1. パッケージのインストール状況を確認しています..."
+echo "==> 2. パッケージのインストール状況を確認しています..."
 
 # OSごとのパッケージマネージャー判定とインストール
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -32,12 +48,12 @@ else
     echo "警告: 未対応のOSです。手動で stow, micro, sqlite3 をインストールしてください。"
 fi
 
-echo "==> 2. GNU Stowでシンボリックリンクを作成します..."
+echo "==> 3. GNU Stowでシンボリックリンクを作成します..."
 
-# Stowが既存のディレクトリと競合するのを防ぐため、あらかじめ .config/micro を作成
+# Stowが既存のディレクトリと競合するのを防ぐため、あらかじめディレクトリを作成
 mkdir -p "$HOME/.config/micro"
 
-# stowコマンドを実行 (sqlite と micro パッケージをホームディレクトリにリンク)
+# stowコマンドを実行
 stow -v -d "$DOTFILES_DIR" -t "$HOME" sqlite micro
 
 echo "==> セットアップが完了しました！"
